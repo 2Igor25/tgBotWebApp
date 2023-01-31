@@ -1,20 +1,23 @@
-import { useEffect } from "react";
+import { useState } from "react";
 import "./App.css";
-const tg = window.Telegram.WebApp;
+import TodoList from "./components/Todos/TodoList";
+import TodoForm from "./components/Todos/TodoForm";
 
 function App() {
-  useEffect(() => {
-    tg.ready();
-  }, []);
+  const [todos, setTodos] = useState([]);
+  const addTodoHandler = (text) => {
+    setTodos([...todos, text]);
+  };
 
-  const onClick = () => {
-    tg.close();
+  const deleteTodoHandler = (index) => {
+    setTodos(todos.filter((_, idx) => idx !== index));
   };
 
   return (
     <div className="App">
-      <h>Work</h>
-      <button onClick={onClick}>Закрыть</button>
+      <h1>Todo App</h1>
+      <TodoForm addTodo={addTodoHandler} />
+      <TodoList todos={todos} deleteTodo={deleteTodoHandler} />
     </div>
   );
 }
